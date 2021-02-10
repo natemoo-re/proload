@@ -253,9 +253,11 @@ For illustrative purposes (please don't do this), combining all of these plugins
 │   ├── namespacerc.json
 │   ├── namespacerc.yaml
 │   └── namespacerc.yml
-└── package.json /* with "namespace" property */
+└── package.json
 ```
 
 ## Credits
 
-Proload is heavily inspired by tools like [`cosmiconfig`](https://github.com/davidtheclark/cosmiconfig#readme) and [`rc`](https://github.com/dominictarr/rc). It would not be possible without [@lukeed](https://github.com/lukeed)'s amazing work with [`escalade`](https://github.com/lukeed/escalade) and [`uvu`](https://github.com/lukeed/uvu).
+Proload is heavily inspired by tools like [`cosmiconfig`](https://github.com/davidtheclark/cosmiconfig#readme) and [`rc`](https://github.com/dominictarr/rc). 
+
+Proload would not be possible without [@lukeed](https://github.com/lukeed)'s amazing work on [`escalade`](https://github.com/lukeed/escalade) and [`uvu`](https://github.com/lukeed/uvu).
