@@ -111,7 +111,7 @@ load.use([rc, json]);
 await load('namespace');
 ```
 
-### Typescript
+### TypeScript
 In order to load a `[namespace].config.ts` file, use `@proload/plugin-typescript`.
 
 ```js
