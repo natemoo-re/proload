@@ -1,7 +1,7 @@
 {
   "name": "@proload/plugin-json",
   "version": "0.1.0",
-  "description": "",
+  "description": "A proload plugin to support .json files",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",
