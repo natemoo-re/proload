@@ -15,5 +15,14 @@
   "license": "MIT",
   "peerDependencies": {
     "@proload/core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natemoo-re/proload.git",
+    "directory": "packages/plugin-json"
+  },
+  "homepage": "https://github.com/natemoo-re/proload#readme",
+  "bugs": {
+    "url": "https://github.com/natemoo-re/proload/issues"
   }
 }

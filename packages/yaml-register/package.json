@@ -15,5 +15,14 @@
   "dependencies": {
     "js-yaml": "^4.0.0",
     "pirates": "^4.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natemoo-re/proload.git",
+    "directory": "packages/yaml-register"
+  },
+  "homepage": "https://github.com/natemoo-re/proload#readme",
+  "bugs": {
+    "url": "https://github.com/natemoo-re/proload/issues"
   }
 }
