@@ -1,0 +1,19 @@
+{
+  "name": "@proload/plugin-json",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@proload/core": "^0.1.0"
+  }
+}

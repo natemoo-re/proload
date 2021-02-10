@@ -1,0 +1,23 @@
+{
+  "name": "@proload/plugin-typescript",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@proload/core": "^0.1.0"
+  },
+  "dependencies": {
+    "@swc-node/register": "^1.0.4",
+    "typescript": "^4.1.3"
+  }
+}

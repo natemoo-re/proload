@@ -1,0 +1,19 @@
+{
+  "name": "yaml-register",
+  "version": "0.1.0",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.0.0",
+    "pirates": "^4.0.1"
+  }
+}
