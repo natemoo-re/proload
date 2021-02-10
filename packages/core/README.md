@@ -27,18 +27,20 @@ Out of the box, `@proload/core` searches up the directory tree for the following
 - a `package.json` file with a top-level `[namespace]` key
 
 
-Here's an overview of all the files supported by default.
+Here's an overview of all the files supported by default for a tool named `donut`.
 
 ```
+await load('donut');
+
 .
-├── namespace.config.js        // Either ESM or CJS supported
-├── namespace.config.cjs
-├── namespace.config.mjs
-├── config/                    // Great for organizing many configs
-│   ├── namespace.config.js
-│   ├── namespace.config.cjs
-│   └── namespace.config.mjs
-└── package.json               // with top-level "namespace" property
+├── donut.config.js        // Either ESM or CJS supported
+├── donut.config.cjs
+├── donut.config.mjs
+├── config/                // Great for organizing many configs
+│   ├── donut.config.js
+│   ├── donut.config.cjs
+│   └── donut.config.mjs
+└── package.json           // with top-level "donut" property
 ```
 
 ## `load`
