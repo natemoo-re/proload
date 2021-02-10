@@ -8,17 +8,52 @@ import load from '@proload/core';
 await load('namespace');
 ```
 
+> `@proload/core` can be used in `node@12.20.1` and up. It relies on Node's native ESM semantics.
+
+## Motivation
+
+Configuration files are really difficult to get right. Tool authors tend to think, "Easy solve! I'll just have everyone use one `namespace.config.js`!" In most cases that should work, but since `node@12.17.0`, plain `.js` files can be written in either ESM or CJS—both formats are officially supported and can be configured on a per-project basis. Additionally, `node` is able to load any file using a `.cjs` or `.mjs` extension, not just `.js`.
+
+Many popular libraries get these semantics wrong, but maintaining and testing this resolution logic in library code can be a huge maintanence burden. As a library author, you don't need to know (or care) which module format your users choose—you just need to load the contents of the config file. `@proload/core` is a well-tested solution that gets these semantics right, so you can focus on more important things.
+
+> You probably have TypeScript users, too! They would definitely appreciate being able to write a `.ts` config file. `@proload/core` uses a plugin system to load non-JavaScript files. See [Plugins](https://github.com/natemoo-re/proload/tree/main/packages/core#plugins) or [`@proload/plugin-typescript`](https://github.com/natemoo-re/proload/tree/main/packages/core#typescript) specifically.
+
 ## Resolution
 
 Out of the box, `@proload/core` searches up the directory tree for the following files:
 
+- a `[namespace].config.js`, `[namespace].config.cjs`, or `[namespace].config.mjs` file
+- any of the `js/cjs/mjs` files inside of `config/` directory
 - a `package.json` file with a top-level `[namespace]` key
-- a `[namespace].config.js`, `[namespace].config.cjs`, `[namespace].config.mjs` file
-- any of the `js/cjs/mjs` formats inside of `config/` directory
 
-`@proload/core` supports `node@12.20.1` and up. `node` officially supports `.cjs`, `.mjs`, and plain `.js` files in either `CJS` or `ESM` formats, so `@proload/core` does too. However, when loading a configuration file via `@proload/core`, you won't know (or care!) which module format your users choose.
 
-## Load Options
+Here's an overview of all the files supported by default.
+
+```
+.
+├── namespace.config.js        // Either ESM or CJS supported
+├── namespace.config.cjs
+├── namespace.config.mjs
+├── config/                    // Great for organizing many configs
+│   ├── namespace.config.js
+│   ├── namespace.config.cjs
+│   └── namespace.config.mjs
+└── package.json               // with top-level "namespace" property
+```
+
+## `load`
+
+The `default` export of `@proload/core` is an `async` function to load a configuration file.
+
+- `namespace` is the name of your tool. As an example, `donut` would search for `donut.config.[ext]`.
+- `opts` configure the behavior of `load`. See [Options](https://github.com/natemoo-re/proload/tree/main/packages/core#options).
+
+```ts
+load(namespace: string, opts?: LoadOptions);
+```
+
+
+## Options
 
 ### cwd
 `load` searches up the directory tree, beginning from this loaction. Defaults to `process.cwd()`.
@@ -93,10 +128,37 @@ export default {
 ### Extending local configuration files
 In many cases, particularly in monorepos, it's useful to have a base configuration file and use `extends` in any sub-packages to inherit the base configuration. `@proload/core` resolves paths in `extends` relative to the configuration file itself.
 
-### Extending configuration presets
-`@proload/core` uses the same strategy to resolve a configuration file from project `dependencies` as it does for user configurations. When publishing a configuration preset, use the same file naming strategy as you would for a local configuration.
+```
+.
+├── namespace.base.config.js
+└── packages/
+    ├── package-a/
+    │   └── namespace.config.js
+    └── package-b/
+        └── namespace.config.js
+```
 
-For example, assume we're writing a tool named `donut`. Users can create a `donut.config.js` file in their project. In order to support `extends: ['@donut/preset-env']`, we need to publish the `@donut/preset-env` package with a top-level `donut.config.js` file. `@proload/core` will look for `@donut/preset-env/donut.config.[cm]?js`.
+### Extending configuration presets
+`@proload/core` uses the same strategy to resolve a configuration file from project `dependencies` as it does for user configurations. When publishing a configuration preset, use the same file naming strategy as you would for local configuration.
+
+```
+.
+├── node_modules/
+│   └── @namespace/
+│       └── preset-env/
+│           ├── package.json
+│           └── namespace.config.js
+├── package.json
+└── namespace.config.js
+```
+
+Assuming `@namespace/preset-env` is a project dependency, the top-level `namespace.config.js` file can use `extends` to reference the dependency.
+
+```js
+export default {
+    extends: ['@namespace/preset-env']
+}
+```
 
 ## Plugins
 
@@ -155,6 +217,43 @@ load.use([rc]);
 await load('namespace');
 ```
 
-## Credit
+### All Plugins
+For illustrative purposes (please don't do this), combining all of these plugins would support the following resolution logic:
 
-Proload is heavily inspired by tools like [`cosmiconfig`](https://github.com/davidtheclark/cosmiconfig#readme) and [`rc`](https://github.com/dominictarr/rc).
+```
+.
+├── namespace.config.js
+├── namespace.config.cjs
+├── namespace.config.mjs
+├── namespace.config.ts
+├── namespace.config.json
+├── namespace.config.yaml
+├── namespace.config.yml
+├── namespacerc.js
+├── namespacerc.cjs
+├── namespacerc.mjs
+├── namespacerc.ts
+├── namespacerc.json
+├── namespacerc.yaml
+├── namespacerc.yml
+├── config/
+│   ├── namespace.config.js
+│   ├── namespace.config.cjs
+│   ├── namespace.config.mjs
+│   ├── namespace.config.ts
+│   ├── namespace.config.json
+│   ├── namespace.config.yaml
+│   ├── namespace.config.yml
+│   ├── namespacerc.js
+│   ├── namespacerc.cjs
+│   ├── namespacerc.mjs
+│   ├── namespacerc.ts
+│   ├── namespacerc.json
+│   ├── namespacerc.yaml
+│   └── namespacerc.yml
+└── package.json /* with "namespace" property */
+```
+
+## Credits
+
+Proload is heavily inspired by tools like [`cosmiconfig`](https://github.com/davidtheclark/cosmiconfig#readme) and [`rc`](https://github.com/dominictarr/rc). It would not be possible without [@lukeed](https://github.com/lukeed)'s amazing work with [`escalade`](https://github.com/lukeed/escalade) and [`uvu`](https://github.com/lukeed/uvu).
