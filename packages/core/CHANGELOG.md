@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.2
+
+**Chores**
+- Exclude `test` files from package
+
 ## v0.1.1
 
 **Added**

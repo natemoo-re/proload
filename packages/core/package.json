@@ -1,10 +1,14 @@
 {
   "name": "@proload/core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Searches for and loads your tool's JavaScript configuration files with full support for CJS, ESM, TypeScript and more.",
   "main": "./lib/cjs/index.cjs",
   "module": "./lib/esm/index.mjs",
   "types": "./lib/index.d.ts",
+  "files": [
+    "lib",
+    "!test"
+  ],
   "exports": {
     ".": {
       "import": "./lib/esm/index.mjs",
