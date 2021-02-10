@@ -130,7 +130,7 @@ async function resolveExtensions(
  */
 async function load(namespace, opts = {}) {
   const accepted = validNames(namespace);
-  const { context } = opts;
+  const { context, accept } = opts;
   const input = opts.cwd || process.cwd();
 
   if (typeof opts.merge === 'function') {
@@ -138,6 +138,12 @@ async function load(namespace, opts = {}) {
   }
 
   const filePath = await escalade(input, async (dir, names) => {
+    if (accept) {
+      for (const n of names) {
+        if (accept(n, { directory: dir }) === true) return n;
+      }
+    }
+
     for (const n of accepted) {
       if (names.includes(n)) return n;
     }

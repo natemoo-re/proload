@@ -37,6 +37,17 @@ test('custom-merge', async () => {
     is(mdl.value.merged, 'custom');
 })
 
+test('custom-accept', async () => {
+    let mdl = await load('test', { 
+        cwd: resolve(`fixtures/custom-accept`), 
+        accept(name) {
+            console.log(name);
+            if (name.startsWith('custom')) return true;
+        }
+    });
+    is(mdl.value.value, 'custom');
+})
+
 test('factory-context', async () => {
     let mdl = await load('test', { cwd: resolve(`fixtures/factory-context`), context: { __TEST__: true } });
     is(mdl.value.value, 'factory-context')

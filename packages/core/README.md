@@ -80,6 +80,38 @@ export default ({ isDev }) => {
 }
 ```
 
+### accept
+If you need complete control over which file to load, the `accept` handler can customize resolution behavior. A return value of `true` marks a file to be loaded, any other return values (even truthy ones) is ignored.
+
+See the [`accept`](https://github.com/natemoo-re/proload/blob/34413acf87d98d3ef310ce2873103455cb2eb379/packages/core/lib/index.d.ts#L11) interface.
+
+> Note that [Plugins](https://github.com/natemoo-re/proload/tree/main/packages/core#plugins) are able to modify similar behavior. To load non-JavaScript files, you should use a plugin instead of `accept`.
+
+```js
+import load from '@proload/core';
+
+await load('donut', {
+    accept(fileName) {
+        // Support alternative spelling for any European friends
+        return fileName.startsWith('doughnut.config');
+    }
+})
+```
+
+The following example uses `@proload/plugin-typescript` to add support for loading `.ts` files and an `accept` handler to require all config files to use the `.ts` extension.
+```js
+import load from '@proload/core';
+import typescript from '@proload/plugin-typescript';
+
+load.use([typescript]);
+await load('namespace', {
+    accept(fileName) {
+        // Only accept `.ts` config files
+        return fileName.endsWith('.ts');
+    }
+})
+```
+
 ### merge
 
 To customize `extends` behavior, you may pass a custom `merge` function to the `load` function. By default, [`deepmerge`](https://github.com/TehShrike/deepmerge) is used.

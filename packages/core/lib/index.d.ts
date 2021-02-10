@@ -4,14 +4,11 @@ export interface Config<T> {
     value: T;
 }
 
-export interface merge<T1, T2 = T1> {
-    (x: Partial<T1>, y: Partial<T2>): T1 & T2;
-}
-
 export interface LoadOptions<T> {
     cwd?: string;
     context?: any;
-    merge?: merge<T>;
+    merge?(x: Partial<T>, y: Partial<T>): Partial<T>;
+    accept?(fileName: string, context: { directory: string }): boolean|void;
 }
 
 export interface Plugin {
