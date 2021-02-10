@@ -20,6 +20,15 @@
     "./package.json": "./package.json"
   },
   "license": "MIT",
+  "keywords": [
+    "load",
+    "configuration",
+    "config",
+    "esm",
+    "cjs",
+    "typescript"
+  ],
+  "author": "Nate Moore <nate@natemoo.re>",
   "dependencies": {
     "deepmerge": "^4.2.2",
     "escalade": "^3.1.1"

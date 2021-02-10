@@ -12,6 +12,13 @@
     "./package.json": "./package.json"
   },
   "license": "MIT",
+  "keywords": [
+    "yaml",
+    "yml",
+    "register",
+    "pirates"
+  ],
+  "author": "Nate Moore <nate@natemoo.re>",
   "dependencies": {
     "js-yaml": "^4.0.0",
     "pirates": "^4.0.1"
