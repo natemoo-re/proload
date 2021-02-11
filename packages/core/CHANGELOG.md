@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.3
+
+**Fixes**
+- Improves accuracy of TypeScript declarations for CJS entrypoint.
+
+**Docs**
+- Added inline documentation to the TypeScript declarations.
+
 ## v0.1.2
 
 **Chores**
