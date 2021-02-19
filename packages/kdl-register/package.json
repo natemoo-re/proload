@@ -1,0 +1,36 @@
+{
+  "name": "kdl-register",
+  "version": "0.1.0",
+  "description": "A require hook to load KDL files",
+  "main": "./lib/index.cjs",
+  "module": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "keywords": [
+    "yaml",
+    "yml",
+    "register",
+    "pirates"
+  ],
+  "author": "Nate Moore <nate@natemoo.re>",
+  "dependencies": {
+    "kdljs": "^0.0.2",
+    "pirates": "^4.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natemoo-re/proload.git",
+    "directory": "packages/kdl-register"
+  },
+  "homepage": "https://github.com/natemoo-re/proload#readme",
+  "bugs": {
+    "url": "https://github.com/natemoo-re/proload/issues"
+  }
+}
