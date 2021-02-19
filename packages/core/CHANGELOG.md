@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.1.4
+
+**Fixes**
+- Do not attempt to resolve "extends" for unrecognized formats.
+
 ## v0.1.3
 
 **Fixes**

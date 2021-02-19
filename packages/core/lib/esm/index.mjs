@@ -94,9 +94,11 @@ async function resolveExtensions(
   acc = {}
 ) {
   let value = typeof raw === "function" ? await raw(context) : raw;
+  if (Array.isArray(value)) return value;
+
   assert(
     isObject(value),
-    `${namespace} configuration expects an "object" but enocuntered ${value}`
+    `${namespace} configuration expects an "object" but encountered ${value}`
   );
   acc = merge(acc, value);
   if (!("extends" in value)) return acc;
