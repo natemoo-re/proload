@@ -1,0 +1,33 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [12, 14, 16]
+        include:
+          - os: windows-latest
+            node_version: 16
+      fail-fast: false
+    name: 'Test: node-${{ matrix.node_version }}, ${{ matrix.os }}'
+    steps:
+      - name: Check out code using Git
+        uses: actions/checkout@v2
+
+      - name: Set Node version to ${{ matrix.node_version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: 'yarn'
+
+      - name: Debug
+        run: yarn versions
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Test
+        run: yarn test
