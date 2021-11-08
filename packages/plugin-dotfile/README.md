@@ -1,11 +1,11 @@
-# `@proload/plugin-json`
+# `@proload/plugin-dotfile`
 
-Enables the loading of `[namespace].config.json` files using [`@proload/core`](https://github.com/natemoo-re/proload).
+Enables the loading of `.[namespace]` files using [`@proload/core`](https://github.com/natemoo-re/proload).
 
 ```js
 import load from '@proload/core';
-import json from '@proload/plugin-json';
+import dotfile from '@proload/plugin-dotfile';
 
-load.use([json]);
+load.use([dotfile]);
 await load('namespace');
 ```
