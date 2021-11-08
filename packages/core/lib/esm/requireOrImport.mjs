@@ -1,5 +1,6 @@
 "use strict";
 import { createRequire } from 'module';
+import { pathToFileURL } from 'url';
 let require = createRequire(import.meta.url);
 
 /**
@@ -15,7 +16,8 @@ export default async function requireOrImport(filePath, { middleware = [] } = {}
             resolve(mdl);
         } catch (e) {
             if (e.code === 'ERR_REQUIRE_ESM') {
-                return import(filePath).then(mdl => resolve(mdl));
+                const fileUrl = pathToFileURL(filePath).toString();
+                return import(fileUrl).then(mdl => resolve(mdl));
             };
             reject(e);
         }
