@@ -2,8 +2,8 @@ module.exports = {
     name: '@proload/plugin-typescript',
     extensions: ['ts', 'tsx'],
     async register(fileName) {
-        if (/\.tsx?$/.test(fileName)) {
-            const { register } = require('@swc-node/register/lib/register.js');
+        if (/\.([cm]ts|tsx?)$/.test(fileName)) {
+            const { register } = require('@swc-node/register/register');
             register({ format: 'esm', extensions: ['.ts', '.tsx'] });
         }
     }
