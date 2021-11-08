@@ -1,8 +1,8 @@
 import escalade from "escalade";
-import { join, dirname, extname } from "path";
+import { join, dirname, extname, resolve } from "path";
 import deepmerge from 'deepmerge';
 
-import { readdir, readFile, stat } from "fs";
+import { existsSync, readdir, readFile, stat } from "fs";
 import { promisify } from "util";
 import { createRequire } from "module";
 import requireOrImport from "./requireOrImport.mjs";
@@ -133,6 +133,7 @@ async function resolveExtensions(
  * @param {import('../index').LoadOptions} opts
  */
 async function load(namespace, opts = {}) {
+  // if (opts)
   const accepted = validNames(namespace);
   const { context, accept } = opts;
   const input = opts.cwd || process.cwd();
@@ -145,36 +146,45 @@ async function load(namespace, opts = {}) {
     merge = opts.merge;
   }
 
-  const filePath = await escalade(input, async (dir, names) => {
-    if (accept) {
-      for (const n of names) {
-        if (accept(n, { directory: dir }) === true) return n;
-      }
-    }
+  let filePath;
 
-    for (const n of accepted) {
-      if (names.includes(n)) return n;
+  if (typeof opts.filePath === 'string') {
+    const absPath = opts.filePath.startsWith('.') ? resolve(opts.filePath, input) : opts.filePath;
+    if (existsSync(absPath)) {
+      filePath = absPath;
     }
-
-    if (names.includes("config")) {
-      let d = join(dir, "config");
-      let _,
-        stats = await toStats(d);
-      let entries = [];
-      if (stats.isDirectory()) {
-        entries = await toRead(d);
-        for (const n of accepted) {
-          if (entries.includes(n)) return join("config", n);
+  } else {
+    filePath = await escalade(input, async (dir, names) => {
+      if (accept) {
+        for (const n of names) {
+          if (accept(n, { directory: dir }) === true) return n;
         }
       }
-    }
 
-    if (names.includes("package.json")) {
-      let file = join(dir, "package.json");
-      let _, contents = await toReadFile(file).then((r) => JSON.parse(r.toString()));
-      if (contents[namespace]) return "package.json";
-    }
-  });
+      for (const n of accepted) {
+        if (names.includes(n)) return n;
+      }
+
+      if (names.includes("config")) {
+        let d = join(dir, "config");
+        let _,
+          stats = await toStats(d);
+        let entries = [];
+        if (stats.isDirectory()) {
+          entries = await toRead(d);
+          for (const n of accepted) {
+            if (entries.includes(n)) return join("config", n);
+          }
+        }
+      }
+
+      if (names.includes("package.json")) {
+        let file = join(dir, "package.json");
+        let _, contents = await toReadFile(file).then((r) => JSON.parse(r.toString()));
+        if (contents[namespace]) return "package.json";
+      }
+    });
+  }
 
   if (mustExist) {
     assert(!!filePath, `Unable to resolve a ${namespace} configuration`, 'ERR_PROLOAD_NOT_FOUND');

@@ -65,6 +65,14 @@ import load from '@proload/core';
 await load('namespace', { cwd: '/path/to/user/project' });
 ```
 
+### filePath
+If you already have the exact (absolute or relative) `filePath` of your user's config file, set the `filePath` option to disable Proload's search algorithm.
+
+```js
+import load from '@proload/core';
+await load('namespace', { cwd: '/path/to/user/project', filePath: './custom-user-config.js' });
+```
+
 ### mustExist
 `mustExist` controls whether a configuration _must_ be found. Defaults to `true`—Proload will throw an error when a configuration is not found. To customize error handling, you may check the shape of the thrown error. 
 

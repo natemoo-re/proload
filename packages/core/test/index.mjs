@@ -1,6 +1,6 @@
 import { test } from 'uvu';
 import { is, type } from 'uvu/assert';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import load from '@proload/core';
 
 const fixtures = ['cjs', 'cjs-config', 'esm', 'esm-config', 'factory', 'js-cjs', 'js-esm', 'package'];
@@ -11,6 +11,11 @@ for (const fixture of fixtures) {
         is(mdl.value.value, fixture)
     });
 }
+
+test('exact filePath', async () => {
+    let mdl = await load('test', { filePath: join(resolve('fixtures/exact-filePath'), '.', 'subfolder', 'test.config.cjs') });
+    is(mdl.value.value, 'exact-filePath')
+});
 
 test('missing but mustExist (default)', async () => {
     let err = 0;
@@ -56,7 +61,6 @@ test('custom-accept', async () => {
     let mdl = await load('test', { 
         cwd: resolve(`fixtures/custom-accept`), 
         accept(name) {
-            console.log(name);
             if (name.startsWith('custom')) return true;
         }
     });

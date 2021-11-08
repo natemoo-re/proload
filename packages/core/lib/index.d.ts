@@ -11,6 +11,13 @@ export interface Config<T> {
 
 export interface LoadOptions<T> {
     /** 
+      * An exact filePath to a configuration file which should be loaded. If passed, this will keep proload from searching
+      * for matching files.
+      *
+      * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#filepath)
+      */
+    filePath?: string;
+    /** 
       * The location from which to begin searching up the directory tree 
       *
       * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#cwd)
