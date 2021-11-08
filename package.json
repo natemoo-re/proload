@@ -2,7 +2,7 @@
   "name": "@proload/root",
   "private": true,
   "scripts": {
-    "test": "uvu"
+    "test": "uvu packages test"
   },
   "devDependencies": {
     "@types/node": "^14.14.25",
