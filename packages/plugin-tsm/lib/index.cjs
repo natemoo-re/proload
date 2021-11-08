@@ -1,10 +1,9 @@
 module.exports = {
-    name: '@proload/plugin-typescript',
+    name: '@proload/plugin-tsm',
     extensions: ['ts', 'tsx'],
     async register(fileName) {
         if (/\.([cm]ts|tsx?)$/.test(fileName)) {
-            const { register } = require('@swc-node/register/register');
-            register({ format: 'esm', extensions: ['.ts', '.tsx'] });
+            require('tsm');
         }
     }
 }
