@@ -6,7 +6,9 @@ import { readdir, readFile, stat } from "fs";
 import { promisify } from "util";
 import { createRequire } from "module";
 import requireOrImport from "./requireOrImport.mjs";
-import { assert } from "../assert.cjs";
+import { assert, ProloadError } from "../error.cjs";
+
+export { ProloadError };
 
 const toStats = promisify(stat);
 const toRead = promisify(readdir);
@@ -134,7 +136,11 @@ async function load(namespace, opts = {}) {
   const accepted = validNames(namespace);
   const { context, accept } = opts;
   const input = opts.cwd || process.cwd();
-
+  
+  let mustExist = true;
+  if (typeof opts.mustExist !== 'undefined') {
+    mustExist = opts.mustExist
+  }
   if (typeof opts.merge === 'function') {
     merge = opts.merge;
   }
@@ -170,7 +176,11 @@ async function load(namespace, opts = {}) {
     }
   });
 
-  if (!filePath) throw new Error(`Unable to resolve`);
+  if (mustExist) {
+    assert(!!filePath, `Unable to resolve a ${namespace} configuration`, 'ERR_PROLOAD_NOT_FOUND');
+  } else if (!filePath) {
+    return;
+  }
 
   let rawValue = await requireOrImportWithMiddleware(filePath);
   if (filePath.endsWith('package.json')) rawValue = rawValue[namespace];

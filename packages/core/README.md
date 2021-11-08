@@ -65,6 +65,25 @@ import load from '@proload/core';
 await load('namespace', { cwd: '/path/to/user/project' });
 ```
 
+### mustExist
+`mustExist` controls whether a configuration _must_ be found. Defaults to `true`—Proload will throw an error when a configuration is not found. To customize error handling, you may check the shape of the thrown error. 
+
+Setting this option to `false` allows a return value of `undefined` when a configuration is not found.
+
+```js
+import load, { ProloadError } from '@proload/core';
+
+try {
+    await load('namespace', { mustExist: true });
+} catch (err) {
+    // Proload couldn't resolve a configuration, log a custom contextual error
+    if (err instanceof ProloadError && err.code === 'ERR_PROLOAD_NOT_FOUND') {
+        console.error(`See the "namespace" docs for configuration info`);
+    }
+    throw err;
+}
+```
+
 ### context
 
 Users may want to dynamically generate a different configuration based on some contextual information passed from your tool. Any `{ context }` passed to the `load` function will be forwarded to configuration "factory" functions.

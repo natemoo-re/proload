@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.2.0
+
+**Features**
+- Introduce the `mustExist` flag, which controls Proload's behavior when a configuration is not found.
+- Introduce the `ProloadError` class export, which can be used in `instanceof` checks to determine if an Error is coming from Proload internals or somewhere else.
+
+**Docs**
+- Document the `mustExist` flag
+
 ## v0.1.4
 
 **Fixes**

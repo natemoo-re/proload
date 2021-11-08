@@ -1,5 +1,5 @@
 import { test } from 'uvu';
-import { is } from 'uvu/assert';
+import { is, type } from 'uvu/assert';
 import { resolve } from 'path';
 import load from '@proload/core';
 
@@ -11,6 +11,21 @@ for (const fixture of fixtures) {
         is(mdl.value.value, fixture)
     });
 }
+
+test('missing but mustExist (default)', async () => {
+    let err = 0;
+    try {
+        let mdl = await load('test', { cwd: resolve(`fixtures/missing`) });
+    } catch (e) {
+        err += 1;
+    }
+    is(err, 1);
+});
+
+test('missing but not mustExist', async () => {
+    let mdl = await load('test', { cwd: resolve(`fixtures/missing`), mustExist: false });
+    type(mdl, 'undefined')
+});
 
 const throwFixtures = ['ts', 'ts-config', 'json', 'json-config'];
 

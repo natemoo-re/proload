@@ -1,3 +1,5 @@
+export { ProloadError } from './error.cjs';
+
 export interface Config<T> {
     /** An absolute path to a resolved configuration file */
     filePath: string;
@@ -14,6 +16,12 @@ export interface LoadOptions<T> {
       * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#cwd)
       */
     cwd?: string;
+    /** 
+      * If a configuration _must_ be resolved. If `true`, Proload will throw an error when a configuration is not found
+      *
+      * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#mustExist)
+      */
+    mustExist?: boolean;
     /** 
       * If a resolved configuration file exports a factory function, this value will be passed as arguments to the function
       *
@@ -55,7 +63,7 @@ interface Load<T extends Record<any, any> = Record<any, any>> {
      *
      * @param opts Options to customize loader behavior
      */
-    (namespace: string, opts?: LoadOptions<T>): Promise<Config<T>>;
+    (namespace: string, opts?: LoadOptions<T>): Promise<Config<T>|undefined>;
     use(plugins: Plugin[]): void;
 }
 
