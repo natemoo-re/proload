@@ -17,5 +17,8 @@
   },
   "engines": {
     "node": ">=12.20.1"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.18.0"
   }
 }
