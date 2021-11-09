@@ -51,7 +51,7 @@ const requireOrImportWithMiddleware = (filePath) => {
   return requireOrImport(filePath, { middleware: registerPlugins }).then(
     async (mdl) => Promise.all(
       transformPlugins.map((plugin) => {
-        Promise.resolve(plugin.transform(mdl)).then((result) => {
+        return Promise.resolve(plugin.transform(mdl)).then((result) => {
           if (result) mdl = result;
         });
       })
