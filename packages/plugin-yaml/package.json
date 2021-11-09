@@ -1,6 +1,6 @@
 {
   "name": "@proload/plugin-yaml",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A proload plugin to support YAML files",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
