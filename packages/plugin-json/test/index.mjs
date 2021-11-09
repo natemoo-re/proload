@@ -12,7 +12,7 @@ test('sanity', () => {
     type(json, 'object');
 })
 
-const fixtures = ['json', 'json-config'];
+const fixtures = ['json', 'json-config', 'jsonc'];
 
 for (const fixture of fixtures) {
     test(fixture, async () => {

@@ -1,7 +1,7 @@
 {
-  "name": "@proload/plugin-json",
-  "version": "0.1.1",
-  "description": "A proload plugin to support .json and .jsonc files",
+  "name": "jsonc-register",
+  "version": "0.1.0",
+  "description": "A require hook to load JSON files with comments",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
   "types": "./lib/index.d.ts",
@@ -14,23 +14,23 @@
   },
   "license": "MIT",
   "keywords": [
-    "proload-plugin",
-    "json"
+    "json",
+    "comments",
+    "jsonc",
+    "register",
+    "pirates"
   ],
   "author": "Nate Moore <nate@natemoo.re>",
-  "peerDependencies": {
-    "@proload/core": "^0.2.1"
+  "dependencies": {
+    "pirates": "^4.0.1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/natemoo-re/proload.git",
-    "directory": "packages/plugin-json"
+    "directory": "packages/jsonc-register"
   },
   "homepage": "https://github.com/natemoo-re/proload#readme",
   "bugs": {
     "url": "https://github.com/natemoo-re/proload/issues"
-  },
-  "dependencies": {
-    "jsonc-register": "^0.1.0"
   }
 }
