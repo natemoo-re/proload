@@ -12,7 +12,7 @@ test('sanity', () => {
     type(typescript, 'object');
 })
 
-const fixtures = ['ts', 'ts-config'];
+const fixtures = ['ts', 'ts-config', 'cts', 'mts'];
 
 for (const fixture of fixtures) {
     test(fixture, async () => {
