@@ -19,7 +19,7 @@
   ],
   "author": "Nate Moore <nate@natemoo.re>",
   "peerDependencies": {
-    "@proload/core": "^0.1.0"
+    "@proload/core": "^0.2.1"
   },
   "dependencies": {
     "yaml-register": "^0.1.0"
