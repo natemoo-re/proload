@@ -15,7 +15,7 @@ export default async function requireOrImport(filePath, { middleware = [] } = {}
             let mdl = require(filePath);
             resolve(mdl);
         } catch (e) {
-            if (e.code === 'ERR_REQUIRE_ESM') {
+            if (e.code === 'ERR_REQUIRE_ESM' || e.code === 'ERR_MODULE_NOT_FOUND') {
                 const fileUrl = pathToFileURL(filePath).toString();
                 return import(fileUrl).then(mdl => resolve(mdl));
             };
