@@ -4,7 +4,7 @@ import deepmerge from 'deepmerge';
 
 import { existsSync, readdir, readFile, stat } from "fs";
 import { promisify } from "util";
-import { createRequire } from "module";
+import resolvePkg from "resolve-pkg";
 import requireOrImport from "./requireOrImport.mjs";
 import { assert, ProloadError } from "../error.cjs";
 
@@ -13,7 +13,6 @@ export { ProloadError };
 const toStats = promisify(stat);
 const toRead = promisify(readdir);
 const toReadFile = promisify(readFile);
-const require = createRequire(import.meta.url);
 
 let merge = deepmerge;
 const defaultExtensions = ['js', 'cjs', 'mjs'];
@@ -67,24 +66,37 @@ const requireOrImportWithMiddleware = (filePath) => {
  */
 async function resolveExtension(namespace, { filePath, extension }) {
   let resolvedPath;
-  if (extname(extension) === "") {
-    if (extension.startsWith("./") || extension.startsWith("../")) {
-      resolvedPath = require.resolve(`${extension}${extname(filePath)}`, {
-        paths: [dirname(filePath)],
-      });
+  if (extension.startsWith("./") || extension.startsWith("../")) {
+    if (extname(extension) === "") {
+      resolvedPath = resolve(dirname(filePath), `${extension}${extname(filePath)}`);
     }
+    if (!existsSync(resolvedPath)) resolvedPath = null;
+
+    if (!resolvedPath) {
+      resolvedPath = resolve(dirname(filePath), extension);
+    }
+    if (!existsSync(resolvedPath)) resolvedPath = null;
+  }
+  if (!resolvedPath) {
+    const pkg = resolvePkg(extension, {
+      cwd: dirname(filePath),
+    });
     const accepted = validNames(namespace);
     for (const config of accepted) {
       try {
-        resolvedPath = require.resolve(`${extension}/${config}`, {
-          paths: [dirname(filePath)],
-        });
-        break;
+        resolvedPath = `${pkg}/${config}`;
+        if (resolvedPath && existsSync(resolvedPath)) {
+          break;
+        } else {
+          resolvedPath = null
+        }
       } catch (e) {}
     }
   }
-  resolvedPath =
-    resolvedPath || require.resolve(extension, { paths: [dirname(filePath)] });
+  if (!resolvedPath) {
+    resolvedPath = resolvePkg(extension, { cwd: dirname(filePath) });
+  }
+  if (!resolvedPath) return
   const value = await requireOrImportWithMiddleware(resolvedPath);
 
   return { filePath: resolvedPath, value };
