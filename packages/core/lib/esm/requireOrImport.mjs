@@ -17,7 +17,7 @@ export default async function requireOrImport(filePath, { middleware = [] } = {}
         } catch (e) {
             if (e.code === 'ERR_REQUIRE_ESM') {
                 const fileUrl = pathToFileURL(filePath).toString();
-                return import(fileUrl).then(mdl => resolve(mdl));
+                return import(fileUrl).then(mdl => resolve(mdl)).catch(reject);
             };
             reject(e);
         }
