@@ -233,7 +233,8 @@ export async function resolve(namespace, opts = {}) {
  * @param {import('../index').LoadOptions} opts
  */
 async function load(namespace, opts = {}) {
-  const { context } = opts;
+  const accepted = validNames(namespace);
+  const { context, accept } = opts;
   const input = opts.cwd || process.cwd();
 
   let mustExist = true;
