@@ -5,6 +5,7 @@
 ### Minor Changes
 
 - ddce5c6: Improve `extends` behavior related to dependencies
+- a93907f: Add `resolve` export
 
 ### Patch Changes
 
