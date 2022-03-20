@@ -1,6 +1,6 @@
 {
   "name": "@proload/plugin-typescript",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "A proload plugin to support TypeScript files",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
@@ -19,7 +19,7 @@
   ],
   "author": "Nate Moore <nate@natemoo.re>",
   "peerDependencies": {
-    "@proload/core": "^0.2.1"
+    "@proload/core": "^0.3.0"
   },
   "dependencies": {
     "@swc-node/register": "^1.3.7",
