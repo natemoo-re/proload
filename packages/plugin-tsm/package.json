@@ -1,6 +1,6 @@
 {
   "name": "@proload/plugin-tsm",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "A proload plugin to support TypeScript files using TSM",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",

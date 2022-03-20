@@ -1,6 +1,6 @@
 # @proload/plugin-kdl
 
-## 1.0.0
+## 0.2.0
 
 ### Patch Changes
 

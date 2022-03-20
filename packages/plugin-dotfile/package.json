@@ -1,6 +1,6 @@
 {
   "name": "@proload/plugin-dotfile",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "A proload plugin to support files with a leading dot",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
