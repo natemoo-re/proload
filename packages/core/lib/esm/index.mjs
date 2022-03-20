@@ -1,5 +1,5 @@
 import escalade from "escalade";
-import { join, dirname, extname, resolve } from "path";
+import { join, dirname, extname, resolve as resolvePath } from "path";
 import deepmerge from "deepmerge";
 
 import { existsSync, readdir, readFile, stat } from "fs";
@@ -81,7 +81,7 @@ async function resolveExtension(namespace, { filePath, extension }) {
   let resolvedPath;
   if (extension.startsWith("./") || extension.startsWith("../")) {
     if (extname(extension) === "") {
-      resolvedPath = resolve(
+      resolvedPath = resolvePath(
         dirname(filePath),
         `${extension}${extname(filePath)}`
       );
@@ -89,7 +89,7 @@ async function resolveExtension(namespace, { filePath, extension }) {
     if (!existsSync(resolvedPath)) resolvedPath = null;
 
     if (!resolvedPath) {
-      resolvedPath = resolve(dirname(filePath), extension);
+      resolvedPath = resolvePath(dirname(filePath), extension);
     }
     if (!existsSync(resolvedPath)) resolvedPath = null;
   }
@@ -174,7 +174,7 @@ export async function resolve(namespace, opts = {}) {
   let filePath;
   if (typeof opts.filePath === "string") {
     const absPath = opts.filePath.startsWith(".")
-      ? resolve(opts.filePath, input)
+      ? resolvePath(opts.filePath, input)
       : opts.filePath;
     if (existsSync(absPath)) {
       filePath = absPath;
@@ -247,7 +247,7 @@ async function load(namespace, opts = {}) {
   let filePath;
   if (typeof opts.filePath === "string") {
     const absPath = opts.filePath.startsWith(".")
-      ? resolve(opts.filePath, input)
+      ? resolvePath(opts.filePath, input)
       : opts.filePath;
     if (existsSync(absPath)) {
       filePath = absPath;
