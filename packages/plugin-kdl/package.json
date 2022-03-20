@@ -1,6 +1,6 @@
 {
   "name": "@proload/plugin-kdl",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A proload plugin to support .kdl files",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
@@ -19,7 +19,7 @@
   ],
   "author": "Nate Moore <nate@natemoo.re>",
   "peerDependencies": {
-    "@proload/core": "^0.2.1"
+    "@proload/core": "^0.3.0"
   },
   "repository": {
     "type": "git",

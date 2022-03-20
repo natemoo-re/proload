@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- ddce5c6: Improve `extends` behavior related to dependencies
+- a93907f: Add `resolve` export
+
+### Patch Changes
+
+- 4c7215e: Improve handling when matched file is empty
+
 ## 0.2.2
 
 ### Patch Changes
