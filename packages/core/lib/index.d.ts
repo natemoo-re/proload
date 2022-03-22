@@ -95,7 +95,7 @@ export interface Plugin {
  *
  * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#resolve)
  */
-declare async function resolve(namespace: string, opts?: ResolveOptions): Promise<string|undefined>;
+export function resolve(namespace: string, opts?: ResolveOptions): Promise<string|undefined>;
 
 interface Load<T extends Record<any, any> = Record<any, any>> {
     /**
@@ -116,5 +116,4 @@ interface Load<T extends Record<any, any> = Record<any, any>> {
  */
 declare const load: Load;
 
-export = load;
 export default load;
