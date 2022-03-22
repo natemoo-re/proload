@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1
+
+### Patch Changes
+
+- 5c011e2: Update types to expose `resolve`
+
 ## 0.3.0
 
 ### Minor Changes
