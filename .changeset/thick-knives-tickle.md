@@ -2,4 +2,4 @@
 "@proload/core": patch
 ---
 
-Remove `resolve-pkg` dependency
+Rollback `resolve` changes

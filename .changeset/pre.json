@@ -2,19 +2,17 @@
   "mode": "pre",
   "tag": "next",
   "initialVersions": {
-    "@proload/core": "0.3.1",
+    "@proload/core": "0.3.2-next.0",
     "jsonc-register": "0.2.0",
     "kdl-register": "0.1.0",
-    "@proload/plugin-dotfile": "0.2.0",
-    "@proload/plugin-json": "0.3.0",
-    "@proload/plugin-kdl": "0.2.0",
-    "@proload/plugin-rc": "0.2.0",
-    "@proload/plugin-tsm": "0.2.0",
-    "@proload/plugin-typescript": "0.2.0",
-    "@proload/plugin-yaml": "0.2.0",
+    "@proload/plugin-dotfile": "0.2.1-next.0",
+    "@proload/plugin-json": "0.3.1-next.0",
+    "@proload/plugin-kdl": "0.2.1-next.0",
+    "@proload/plugin-rc": "0.2.1-next.0",
+    "@proload/plugin-tsm": "0.2.1-next.0",
+    "@proload/plugin-typescript": "0.2.1-next.0",
+    "@proload/plugin-yaml": "0.2.1-next.0",
     "yaml-register": "0.1.0"
   },
-  "changesets": [
-    "early-boats-approve"
-  ]
+  "changesets": []
 }

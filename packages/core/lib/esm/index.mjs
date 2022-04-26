@@ -1,16 +1,15 @@
 import escalade from "escalade";
-import { join, dirname, extname, resolve as resolvePath } from "path";
+import { join, dirname, extname, resolve } from "path";
 import deepmerge from "deepmerge";
 
 import { existsSync, readdir, readFile, stat } from "fs";
 import { promisify } from "util";
-import { createRequire } from "module";
+import resolvePkg from "resolve-pkg";
 import requireOrImport from "./requireOrImport.mjs";
 import { assert, ProloadError } from "../error.cjs";
 
 export { ProloadError };
 
-const require = createRequire(import.meta.url);
 const toStats = promisify(stat);
 const toRead = promisify(readdir);
 const toReadFile = promisify(readFile);
@@ -82,7 +81,7 @@ async function resolveExtension(namespace, { filePath, extension }) {
   let resolvedPath;
   if (extension.startsWith("./") || extension.startsWith("../")) {
     if (extname(extension) === "") {
-      resolvedPath = resolvePath(
+      resolvedPath = resolve(
         dirname(filePath),
         `${extension}${extname(filePath)}`
       );
@@ -90,12 +89,12 @@ async function resolveExtension(namespace, { filePath, extension }) {
     if (!existsSync(resolvedPath)) resolvedPath = null;
 
     if (!resolvedPath) {
-      resolvedPath = resolvePath(dirname(filePath), extension);
+      resolvedPath = resolve(dirname(filePath), extension);
     }
     if (!existsSync(resolvedPath)) resolvedPath = null;
   }
   if (!resolvedPath) {
-    const pkg = require.resolve(extension, {
+    const pkg = resolvePkg(extension, {
       cwd: dirname(filePath),
     });
     const accepted = validNames(namespace);
@@ -111,7 +110,7 @@ async function resolveExtension(namespace, { filePath, extension }) {
     }
   }
   if (!resolvedPath) {
-    resolvedPath = require.resolve(extension, { cwd: dirname(filePath) });
+    resolvedPath = resolvePkg(extension, { cwd: dirname(filePath) });
   }
   if (!resolvedPath) return;
   const value = await requireOrImportWithMiddleware(resolvedPath);
@@ -158,12 +157,14 @@ async function resolveExtensions(
 /**
  *
  * @param {string} namespace
- * @param {import('../index').ResolveOptions} opts
+ * @param {import('../index').LoadOptions} opts
  */
-export async function resolve(namespace, opts = {}) {
+async function resolveConfig(namespace, opts = {}) {
+  // if (opts)
   const accepted = validNames(namespace);
-  const { accept } = opts;
+  const { context, accept } = opts;
   const input = opts.cwd || process.cwd();
+
   let mustExist = true;
   if (typeof opts.mustExist !== "undefined") {
     mustExist = opts.mustExist;
@@ -175,7 +176,7 @@ export async function resolve(namespace, opts = {}) {
   let filePath;
   if (typeof opts.filePath === "string") {
     const absPath = opts.filePath.startsWith(".")
-      ? resolvePath(opts.filePath, input)
+      ? resolve(opts.filePath, input)
       : opts.filePath;
     if (existsSync(absPath)) {
       filePath = absPath;
@@ -234,62 +235,13 @@ export async function resolve(namespace, opts = {}) {
  * @param {import('../index').LoadOptions} opts
  */
 async function load(namespace, opts = {}) {
-  const accepted = validNames(namespace);
-  const { context, accept } = opts;
-  const input = opts.cwd || process.cwd();
+  const { context } = opts;
 
   let mustExist = true;
   if (typeof opts.mustExist !== "undefined") {
     mustExist = opts.mustExist;
   }
-  if (typeof opts.merge === "function") {
-    merge = opts.merge;
-  }
-
-  let filePath;
-  if (typeof opts.filePath === "string") {
-    const absPath = opts.filePath.startsWith(".")
-      ? resolvePath(opts.filePath, input)
-      : opts.filePath;
-    if (existsSync(absPath)) {
-      filePath = absPath;
-    }
-  } else {
-    filePath = await escalade(input, async (dir, names) => {
-      if (accept) {
-        for (const n of names) {
-          if (accept(n, { directory: dir }) === true) return n;
-        }
-      }
-
-      for (const n of accepted) {
-        if (names.includes(n)) return n;
-      }
-
-      if (names.includes("config")) {
-        let d = join(dir, "config");
-        let _,
-          stats = await toStats(d);
-        let entries = [];
-        if (stats.isDirectory()) {
-          entries = await toRead(d);
-          for (const n of accepted) {
-            if (entries.includes(n)) return join("config", n);
-          }
-        }
-      }
-
-      if (names.includes("package.json")) {
-        let file = join(dir, "package.json");
-        let _,
-          contents = await toReadFile(file).then((r) =>
-            JSON.parse(r.toString())
-          );
-        if (contents[namespace]) return "package.json";
-      }
-    });
-  }
-
+  const filePath = await resolveConfig(namespace, opts);
   if (mustExist) {
     assert(
       !!filePath,
@@ -302,7 +254,7 @@ async function load(namespace, opts = {}) {
 
   let rawValue = await requireOrImportWithMiddleware(filePath);
   if (filePath.endsWith("package.json")) rawValue = rawValue[namespace];
-  const hasExport = "default" in rawValue;
+  const hasExport = ('default' in rawValue);
   if (!hasExport) {
     if (mustExist) {
       assert(
@@ -347,3 +299,4 @@ load.use = (plugins) => {
   load.plugins = [...load.plugins, ...plugins];
 };
 export default load;
+export { resolveConfig as resolve };
