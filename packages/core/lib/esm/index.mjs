@@ -4,7 +4,7 @@ import deepmerge from "deepmerge";
 
 import { existsSync, readdir, readFile, stat } from "fs";
 import { promisify } from "util";
-import resolvePkg from "resolve-pkg";
+import { createRequire } from "module";
 import requireOrImport from "./requireOrImport.mjs";
 import { assert, ProloadError } from "../error.cjs";
 
@@ -13,6 +13,7 @@ export { ProloadError };
 const toStats = promisify(stat);
 const toRead = promisify(readdir);
 const toReadFile = promisify(readFile);
+const require = createRequire(import.meta.url);
 
 let merge = deepmerge;
 const defaultExtensions = ["js", "cjs", "mjs"];
@@ -94,7 +95,7 @@ async function resolveExtension(namespace, { filePath, extension }) {
     if (!existsSync(resolvedPath)) resolvedPath = null;
   }
   if (!resolvedPath) {
-    const pkg = resolvePkg(extension, {
+    const pkg = require.resolve(extension, {
       cwd: dirname(filePath),
     });
     const accepted = validNames(namespace);
@@ -110,7 +111,7 @@ async function resolveExtension(namespace, { filePath, extension }) {
     }
   }
   if (!resolvedPath) {
-    resolvedPath = resolvePkg(extension, { cwd: dirname(filePath) });
+    resolvedPath = require.resolve(extension, { cwd: dirname(filePath) });
   }
   if (!resolvedPath) return;
   const value = await requireOrImportWithMiddleware(resolvedPath);
