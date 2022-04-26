@@ -14,6 +14,10 @@
       "import": "./lib/esm/index.mjs",
       "require": "./lib/cjs/index.cjs"
     },
+    "./plugin-typescript": {
+      "import": "./plugin-typescript/index.mjs",
+      "require": "./plugin-typescript/index.cjs"
+    },
     "./esm": "./lib/esm/index.mjs",
     "./cjs": "./lib/cjs/index.cjs",
     "./lib/index.d.ts": "./lib/index.d.ts",
@@ -31,7 +35,8 @@
   "author": "Nate Moore <nate@natemoo.re>",
   "dependencies": {
     "deepmerge": "^4.2.2",
-    "escalade": "^3.1.1"
+    "escalade": "^3.1.1",
+    "resolve-pkg": "^2.0.0"
   },
   "repository": {
     "type": "git",
