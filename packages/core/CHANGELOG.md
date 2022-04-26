@@ -1,40 +1,10 @@
 # Changelog
 
-## 0.3.2-next.5
+## 0.3.2
 
 ### Patch Changes
 
-- a3046e3: Gracefully support empty config files (again)
-
-## 0.3.2-next.4
-
-### Patch Changes
-
-- 72c8577: Rollback empty config file change
-
-## 0.3.2-next.3
-
-### Patch Changes
-
-- 280796b: Rollback rejection
-
-## 0.3.2-next.2
-
-### Patch Changes
-
-- 090d99a: Remove `resolve-pkg` dependency
-
-## 0.3.2-next.1
-
-### Patch Changes
-
-- b4553a5: Rollback `resolve` changes
-
-## 0.3.2-next.0
-
-### Patch Changes
-
-- 5cbbe02: Remove `resolve-pkg` dependency
+- a3046e3: Fix bug introduced by supporting empty config files
 
 ## 0.3.1
 

@@ -1,5 +1,12 @@
 # @proload/plugin-yaml
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [72c8577]
+  - @proload/core@0.3.2
+
 ## 0.2.1-next.0
 
 ### Patch Changes
