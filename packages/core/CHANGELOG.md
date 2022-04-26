@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2-next.1
+
+### Patch Changes
+
+- b4553a5: Rollback `resolve` changes
+
 ## 0.3.2-next.0
 
 ### Patch Changes
