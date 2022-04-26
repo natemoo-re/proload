@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2-next.5
+
+### Patch Changes
+
+- a3046e3: Gracefully support empty config files (again)
+
 ## 0.3.2-next.4
 
 ### Patch Changes
