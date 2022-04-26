@@ -1,5 +1,12 @@
 # @proload/plugin-dotfile
 
+## 0.2.1-next.0
+
+### Patch Changes
+
+- Updated dependencies [5cbbe02]
+  - @proload/core@0.3.2-next.0
+
 ## 0.2.0
 
 ### Patch Changes

@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.2-next.3
+
+### Patch Changes
+
+- 280796b: Rollback rejection
+
+## 0.3.2-next.2
+
+### Patch Changes
+
+- 090d99a: Remove `resolve-pkg` dependency
+
+## 0.3.2-next.1
+
+### Patch Changes
+
+- b4553a5: Rollback `resolve` changes
+
+## 0.3.2-next.0
+
+### Patch Changes
+
+- 5cbbe02: Remove `resolve-pkg` dependency
+
 ## 0.3.1
 
 ### Patch Changes
