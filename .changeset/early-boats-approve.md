@@ -1,5 +1,5 @@
 ---
-"@proload/core": minor
+"@proload/core": patch
 ---
 
 Remove `resolve-pkg` dependency
