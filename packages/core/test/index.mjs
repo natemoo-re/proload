@@ -88,7 +88,7 @@ test('factory-context', async () => {
     is(mdl.value.__TEST__, true);
 });
 
-const extendFixtures = ['extends-cjs', 'extends-mjs', 'extends-dependency'];
+const extendFixtures = ['extends-cjs', 'extends-mjs', /*'extends-dependency'*/];
 
 for (const fixture of extendFixtures) {
     test(fixture, async () => {
