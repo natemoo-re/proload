@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2-next.2
+
+### Patch Changes
+
+- 090d99a: Remove `resolve-pkg` dependency
+
 ## 0.3.2-next.1
 
 ### Patch Changes

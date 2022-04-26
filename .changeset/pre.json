@@ -15,6 +15,7 @@
     "yaml-register": "0.1.0"
   },
   "changesets": [
+    "smooth-lizards-poke",
     "thick-knives-tickle"
   ]
 }
