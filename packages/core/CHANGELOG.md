@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2-next.0
+
+### Patch Changes
+
+- 5cbbe02: Remove `resolve-pkg` dependency
+
 ## 0.3.1
 
 ### Patch Changes

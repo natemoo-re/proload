@@ -1,5 +1,12 @@
 # @proload/plugin-json
 
+## 0.3.1-next.0
+
+### Patch Changes
+
+- Updated dependencies [5cbbe02]
+  - @proload/core@0.3.2-next.0
+
 ## 0.3.0
 
 ### Patch Changes
