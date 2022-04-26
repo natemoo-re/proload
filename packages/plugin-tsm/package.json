@@ -1,6 +1,6 @@
 {
   "name": "@proload/plugin-tsm",
-  "version": "0.2.0",
+  "version": "0.2.1-next.0",
   "description": "A proload plugin to support TypeScript files using TSM",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
@@ -19,7 +19,7 @@
   ],
   "author": "Nate Moore <nate@natemoo.re>",
   "peerDependencies": {
-    "@proload/core": "^0.3.0"
+    "@proload/core": "^0.3.2-next.3"
   },
   "dependencies": {
     "tsm": "^2.1.4"

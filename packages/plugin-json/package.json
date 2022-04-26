@@ -1,6 +1,6 @@
 {
   "name": "@proload/plugin-json",
-  "version": "0.3.0",
+  "version": "0.3.1-next.0",
   "description": "A proload plugin to support .json and .jsonc files",
   "main": "./lib/index.cjs",
   "module": "./lib/index.mjs",
@@ -19,7 +19,7 @@
   ],
   "author": "Nate Moore <nate@natemoo.re>",
   "peerDependencies": {
-    "@proload/core": "^0.3.0"
+    "@proload/core": "^0.3.2-next.3"
   },
   "repository": {
     "type": "git",
