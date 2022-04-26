@@ -14,5 +14,7 @@
     "@proload/plugin-yaml": "0.2.1-next.0",
     "yaml-register": "0.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "thick-knives-tickle"
+  ]
 }
