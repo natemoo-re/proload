@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2-next.3
+
+### Patch Changes
+
+- 280796b: Rollback rejection
+
 ## 0.3.2-next.2
 
 ### Patch Changes
