@@ -144,7 +144,7 @@ async function resolveExtensions(
  * @param {string} namespace
  * @param {import('../index').ResolveOptions} opts
  */
-export async function resolve(namespace, opts = {}) {
+export async function resolveConfig(namespace, opts = {}) {
   const accepted = validNames(namespace);
   const { accept } = opts;
   const input = opts.cwd || process.cwd();
@@ -309,3 +309,4 @@ load.use = (plugins) => {
   load.plugins = [...load.plugins, ...plugins];
 };
 export default load;
+export { resolveConfig as resolve };
