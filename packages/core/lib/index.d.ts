@@ -9,34 +9,6 @@ export interface Config<T> {
     value: T;
 }
 
-export interface ResolveOptions {
-    /** 
-      * An exact filePath to a configuration file which should be loaded. If passed, this will keep proload from searching
-      * for matching files.
-      *
-      * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#filepath)
-      */
-    filePath?: string;
-    /** 
-      * The location from which to begin searching up the directory tree 
-      *
-      * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#cwd)
-      */
-    cwd?: string;
-    /** 
-      * If a configuration _must_ be resolved. If `true`, Proload will throw an error when a configuration is not found
-      *
-      * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#mustExist)
-      */
-    mustExist?: boolean;
-    /** 
-      * A function to completely customize module resolution
-      *
-      * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#accept)
-      */
-    accept?(fileName: string, context: { directory: string }): boolean|void;
-}
-
 export interface LoadOptions<T> {
     /** 
       * An exact filePath to a configuration file which should be loaded. If passed, this will keep proload from searching
@@ -89,13 +61,6 @@ export interface Plugin {
     /** Modify the config file before passing it along */
     transform?(module: any): Promise<any>;
 }
-
-/**
- * An `async` function which searches for a configuration file
- *
- * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#resolve)
- */
-export function resolve(namespace: string, opts?: ResolveOptions): Promise<string|undefined>;
 
 interface Load<T extends Record<any, any> = Record<any, any>> {
     /**
