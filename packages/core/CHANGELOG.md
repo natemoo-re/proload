@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2-next.4
+
+### Patch Changes
+
+- 72c8577: Rollback empty config file change
+
 ## 0.3.2-next.3
 
 ### Patch Changes
