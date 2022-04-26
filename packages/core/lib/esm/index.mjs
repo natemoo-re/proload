@@ -159,7 +159,7 @@ async function resolveExtensions(
  * @param {string} namespace
  * @param {import('../index').LoadOptions} opts
  */
-async function load(namespace, opts = {}) {
+async function resolveConfig(namespace, opts = {}) {
   // if (opts)
   const accepted = validNames(namespace);
   const { context, accept } = opts;
@@ -226,6 +226,31 @@ async function load(namespace, opts = {}) {
   } else if (!filePath) {
     return;
   }
+  return filePath;
+}
+
+/**
+ *
+ * @param {string} namespace
+ * @param {import('../index').LoadOptions} opts
+ */
+async function load(namespace, opts = {}) {
+  const { context } = opts;
+
+  let mustExist = true;
+  if (typeof opts.mustExist !== "undefined") {
+    mustExist = opts.mustExist;
+  }
+  const filePath = await resolveConfig(namespace, opts);
+  if (mustExist) {
+    assert(
+      !!filePath,
+      `Unable to resolve a ${namespace} configuration`,
+      "ERR_PROLOAD_NOT_FOUND"
+    );
+  } else if (!filePath) {
+    return;
+  }
 
   let rawValue = await requireOrImportWithMiddleware(filePath);
   if (filePath.endsWith("package.json")) rawValue = rawValue[namespace];
@@ -274,3 +299,4 @@ load.use = (plugins) => {
   load.plugins = [...load.plugins, ...plugins];
 };
 export default load;
+export { resolveConfig as resolve };

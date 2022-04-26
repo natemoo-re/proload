@@ -43,6 +43,17 @@ await load('donut');
 └── package.json           // with top-level "donut" property
 ```
 
+## `resolve`
+
+`resolve` is an additional named export of `@proload/core`. It is an `async` function that resolves **but does not load** a configuration file.
+
+- `namespace` is the name of your tool. As an example, `donut` would search for `donut.config.[ext]`.
+- `opts` configure the behavior of `load`. See [Options](https://github.com/natemoo-re/proload/tree/main/packages/core#options).
+
+```ts
+resolve(namespace: string, opts?: ResolveOptions);
+```
+
 ## `load`
 
 The `default` export of `@proload/core` is an `async` function to load a configuration file.
