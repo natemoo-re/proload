@@ -27,21 +27,6 @@ test('missing but mustExist (default)', async () => {
     is(err, 1);
 });
 
-test('empty but not mustExist', async () => {
-    let mdl = await load('test', { cwd: resolve(`fixtures/empty`), mustExist: false });
-    type(mdl, 'undefined')
-});
-
-test('empty but mustExist (default)', async () => {
-    let err = 0;
-    try {
-        let mdl = await load('test', { cwd: resolve(`fixtures/empty`) });
-    } catch (e) {
-        err += 1;
-    }
-    is(err, 1);
-});
-
 test('missing but not mustExist', async () => {
     let mdl = await load('test', { cwd: resolve(`fixtures/missing`), mustExist: false });
     type(mdl, 'undefined')

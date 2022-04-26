@@ -16,35 +16,23 @@ const toReadFile = promisify(readFile);
 const require = createRequire(import.meta.url);
 
 let merge = deepmerge;
-const defaultExtensions = ["js", "cjs", "mjs"];
-const defaultFileNames = ["[name].config"];
+const defaultExtensions = ['js', 'cjs', 'mjs'];
+const defaultFileNames = ['[name].config'];
 
 const validNames = (namespace) => {
-  const extensionPlugins = load.plugins.filter((p) =>
-    Array.isArray(p.extensions)
-  );
-  const fileNamePlugins = load.plugins.filter((p) =>
-    Array.isArray(p.fileNames)
-  );
-  const validExtensions = [...defaultExtensions].concat(
-    ...extensionPlugins.map((p) => p.extensions)
-  );
-  const validFileNames = [...defaultFileNames].concat(
-    ...fileNamePlugins.map((p) => p.fileNames)
-  );
+  const extensionPlugins = load.plugins.filter(p => Array.isArray(p.extensions));
+  const fileNamePlugins = load.plugins.filter(p => Array.isArray(p.fileNames));
+  const validExtensions = [...defaultExtensions].concat(...extensionPlugins.map(p => p.extensions));
+  const validFileNames = [...defaultFileNames].concat(...fileNamePlugins.map(p => p.fileNames));
 
   const result = validFileNames
-    .map((fileName) => fileName.replace("[name]", namespace))
+    .map(fileName => fileName.replace('[name]', namespace))
     .reduce((acc, fileName) => {
-      return [...acc].concat(
-        ...validExtensions.map(
-          (ext) => `${fileName}${ext ? "." + ext.replace(/^\./, "") : ""}`
-        )
-      );
+      return [...acc].concat(...validExtensions.map(ext => `${fileName}${ext ? '.' + ext.replace(/^\./, '') : ''}`))
     }, []);
 
   return result;
-};
+}
 
 /**
  * @param {any} val
@@ -61,14 +49,13 @@ const requireOrImportWithMiddleware = (filePath) => {
     (plugin) => typeof plugin.transform !== "undefined"
   );
   return requireOrImport(filePath, { middleware: registerPlugins }).then(
-    async (mdl) =>
-      Promise.all(
-        transformPlugins.map((plugin) => {
-          return Promise.resolve(plugin.transform(mdl)).then((result) => {
-            if (result) mdl = result;
-          });
-        })
-      ).then(() => mdl)
+    async (mdl) => Promise.all(
+      transformPlugins.map((plugin) => {
+        return Promise.resolve(plugin.transform(mdl)).then((result) => {
+          if (result) mdl = result;
+        });
+      })
+    ).then(() => mdl)
   );
 };
 
@@ -105,7 +92,7 @@ async function resolveExtension(namespace, { filePath, extension }) {
         if (resolvedPath && existsSync(resolvedPath)) {
           break;
         } else {
-          resolvedPath = null;
+          resolvedPath = null
         }
       } catch (e) {}
     }
@@ -113,7 +100,7 @@ async function resolveExtension(namespace, { filePath, extension }) {
   if (!resolvedPath) {
     resolvedPath = require.resolve(extension, { cwd: dirname(filePath) });
   }
-  if (!resolvedPath) return;
+  if (!resolvedPath) return
   const value = await requireOrImportWithMiddleware(resolvedPath);
 
   return { filePath: resolvedPath, value };
@@ -126,6 +113,7 @@ async function resolveExtensions(
 ) {
   let value = typeof raw === "function" ? await raw(context) : raw;
   if (Array.isArray(value)) return value;
+
   assert(
     isObject(value),
     `${namespace} configuration expects an "object" but encountered ${value}`
@@ -161,7 +149,6 @@ async function resolveExtensions(
  * @param {import('../index').LoadOptions} opts
  */
 async function resolveConfig(namespace, opts = {}) {
-  // if (opts)
   const accepted = validNames(namespace);
   const { context, accept } = opts;
   const input = opts.cwd || process.cwd();
@@ -237,37 +224,19 @@ async function resolveConfig(namespace, opts = {}) {
  */
 async function load(namespace, opts = {}) {
   const { context } = opts;
-
   let mustExist = true;
-  if (typeof opts.mustExist !== "undefined") {
-    mustExist = opts.mustExist;
+  if (typeof opts.mustExist !== 'undefined') {
+    mustExist = opts.mustExist
   }
   const filePath = await resolveConfig(namespace, opts);
   if (mustExist) {
-    assert(
-      !!filePath,
-      `Unable to resolve a ${namespace} configuration`,
-      "ERR_PROLOAD_NOT_FOUND"
-    );
+    assert(!!filePath, `Unable to resolve a ${namespace} configuration`, 'ERR_PROLOAD_NOT_FOUND');
   } else if (!filePath) {
     return;
   }
 
   let rawValue = await requireOrImportWithMiddleware(filePath);
-  if (filePath.endsWith("package.json")) rawValue = rawValue[namespace];
-  const hasExport = ('default' in rawValue);
-  if (!hasExport) {
-    if (mustExist) {
-      assert(
-        true,
-        `Resolved a ${namespace} configuration, but no configuration was exported`,
-        "ERR_PROLOAD_NOT_FOUND"
-      );
-    } else {
-      return;
-    }
-  }
-
+  if (filePath.endsWith('package.json')) rawValue = rawValue[namespace];
   const resolvedValue = await resolveExtensions(namespace, {
     filePath,
     value: rawValue,
@@ -285,10 +254,9 @@ const defaultPlugins = [
   {
     name: "@proload/extract-default",
     transform(mdl) {
-      if (typeof mdl === "undefined") return mdl;
       if (mdl.default && Object.keys(mdl).length === 1) {
         return mdl.default;
-      }
+      };
 
       return mdl;
     },
