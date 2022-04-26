@@ -32,6 +32,36 @@ test('missing but not mustExist', async () => {
     type(mdl, 'undefined')
 });
 
+test('empty but not mustExist', async () => {
+    let mdl = await load('test', { cwd: resolve(`fixtures/empty`), mustExist: false });
+    type(mdl, 'undefined')
+});
+
+test('empty but mustExist (default)', async () => {
+    let err = 0;
+    try {
+        let mdl = await load('test', { cwd: resolve(`fixtures/empty`) });
+    } catch (e) {
+        err += 1;
+    }
+    is(err, 1);
+});
+
+test('empty export but not mustExist', async () => {
+    let mdl = await load('test', { cwd: resolve(`fixtures/empty-export`), mustExist: false });
+    type(mdl, 'undefined')
+});
+
+test('empty export but mustExist (default)', async () => {
+    let err = 0;
+    try {
+        let mdl = await load('test', { cwd: resolve(`fixtures/empty-export`) });
+    } catch (e) {
+        err += 1;
+    }
+    is(err, 1);
+});
+
 const throwFixtures = ['ts', 'ts-config', 'json', 'json-config'];
 
 for (const fixture of throwFixtures) {

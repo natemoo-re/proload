@@ -237,6 +237,19 @@ async function load(namespace, opts = {}) {
 
   let rawValue = await requireOrImportWithMiddleware(filePath);
   if (filePath.endsWith('package.json')) rawValue = rawValue[namespace];
+  // Important: "empty" config files will be returned as `Module {}`
+  // We should handle them here
+  if (rawValue && !(rawValue instanceof Object)) {
+    if (mustExist) {
+      assert(
+        true,
+        `Resolved a ${namespace} configuration, but no configuration was exported`,
+        "ERR_PROLOAD_NOT_FOUND"
+      );
+    } else {
+      return;
+    }
+  }
   const resolvedValue = await resolveExtensions(namespace, {
     filePath,
     value: rawValue,
