@@ -63,6 +63,12 @@ export interface LoadOptions<T> {
       * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#context)
       */
     context?: any;
+    /** 
+      * If you _really_ need to cache-bust the loaded config file, use this option.
+      *
+      * [Read the `@proload/core` docs](https://github.com/natemoo-re/proload/tree/main/packages/core#context)
+      */
+    unsafeCacheBust?: boolean;
     /**
       * A function to customize the `merge` behavior when a config with `extends` is encountered 
       *

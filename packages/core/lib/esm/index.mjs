@@ -41,14 +41,14 @@ const validNames = (namespace) => {
 const isObject = (val) =>
   val != null && typeof val === "object" && Array.isArray(val) === false;
 
-const requireOrImportWithMiddleware = (filePath) => {
+const requireOrImportWithMiddleware = (filePath, { cacheBust }) => {
   let registerPlugins = load.plugins.filter(
     (plugin) => typeof plugin.register !== "undefined"
   );
   let transformPlugins = load.plugins.filter(
     (plugin) => typeof plugin.transform !== "undefined"
   );
-  return requireOrImport(filePath, { middleware: registerPlugins }).then(
+  return requireOrImport(filePath, { middleware: registerPlugins, cacheBust }).then(
     async (mdl) => Promise.all(
       transformPlugins.map((plugin) => {
         return Promise.resolve(plugin.transform(mdl)).then((result) => {
@@ -62,10 +62,10 @@ const requireOrImportWithMiddleware = (filePath) => {
 /**
  *
  * @param {string} namespace
- * @param {{ filePath: string, extension: string }} opts
+ * @param {{ filePath: string, extension: string, cacheBust: boolean }} opts
  * @returns {Promise<{ filePath: string, value: string }>}
  */
-async function resolveExtension(namespace, { filePath, extension }) {
+async function resolveExtension(namespace, { filePath, extension, cacheBust }) {
   let resolvedPath;
   if (extension.startsWith("./") || extension.startsWith("../")) {
     if (extname(extension) === "") {
@@ -101,14 +101,14 @@ async function resolveExtension(namespace, { filePath, extension }) {
     resolvedPath = require.resolve(extension, { cwd: dirname(filePath) });
   }
   if (!resolvedPath) return
-  const value = await requireOrImportWithMiddleware(resolvedPath);
+  const value = await requireOrImportWithMiddleware(resolvedPath, { cacheBust });
 
   return { filePath: resolvedPath, value };
 }
 
 async function resolveExtensions(
   namespace,
-  { filePath, value: raw, context },
+  { filePath, value: raw, context, cacheBust },
   acc = {}
 ) {
   let value = typeof raw === "function" ? await raw(context) : raw;
@@ -128,8 +128,8 @@ async function resolveExtensions(
 
   const configs = await Promise.all(
     value.extends.map((extension) =>
-      resolveExtension(namespace, { filePath, extension }).then((config) =>
-        resolveExtensions(namespace, { ...config, context }, acc)
+      resolveExtension(namespace, { filePath, extension, cacheBust }).then((config) =>
+        resolveExtensions(namespace, { ...config, context, cacheBust }, acc)
       )
     )
   );
@@ -223,7 +223,7 @@ async function resolveConfig(namespace, opts = {}) {
  * @param {import('../index').LoadOptions} opts
  */
 async function load(namespace, opts = {}) {
-  const { context } = opts;
+  const { context, unsafeCacheBust: cacheBust = false } = opts;
   let mustExist = true;
   if (typeof opts.mustExist !== 'undefined') {
     mustExist = opts.mustExist
@@ -235,7 +235,7 @@ async function load(namespace, opts = {}) {
     return;
   }
 
-  let rawValue = await requireOrImportWithMiddleware(filePath);
+  let rawValue = await requireOrImportWithMiddleware(filePath, { cacheBust });
   if (filePath.endsWith('package.json')) rawValue = rawValue[namespace];
   // Important: "empty" config files will be returned as `Module {}`
   // We should handle them here
@@ -254,6 +254,7 @@ async function load(namespace, opts = {}) {
     filePath,
     value: rawValue,
     context,
+    cacheBust
   });
 
   return {

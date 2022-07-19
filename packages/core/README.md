@@ -103,6 +103,15 @@ try {
 }
 ```
 
+### unsafeCacheBust
+`unsafeCacheBust` controls whether Proload automatically cache-busts the loaded config file. This is an unsafe option that could introduce memory leaks—use with caustion!
+
+```js
+import load, { ProloadError } from '@proload/core';
+
+await load('namespace', { unsafeCacheBust: true });
+```
+
 ### context
 
 Users may want to dynamically generate a different configuration based on some contextual information passed from your tool. Any `{ context }` passed to the `load` function will be forwarded to configuration "factory" functions.
