@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3
+
+### Patch Changes
+
+- 0133f2a: Fix: make ESM parse errors catch-able
+
 ## 0.3.2
 
 ### Patch Changes
