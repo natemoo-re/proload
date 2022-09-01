@@ -17,6 +17,16 @@ test('exact filePath', async () => {
     is(mdl.value.value, 'exact-filePath')
 });
 
+test('ESM parse errors should be catch-able', async () => {
+    let err = 0;
+    try {
+        await load('test', { cwd: resolve(`fixtures/esm-parse-error`) });
+    } catch (e) {
+        err += 1;
+    }
+    is(err, 1);
+});
+
 test('missing but mustExist (default)', async () => {
     let err = 0;
     try {
