@@ -3,7 +3,7 @@ module.exports = {
     extensions: ['yaml', 'yml'],
     async register(fileName) {
         if (/\.ya?ml$/.test(fileName)) {
-            const { register } = require('yaml-register');
+            const { register } = require('yaml-register/lib');
             register();
         }
     }
